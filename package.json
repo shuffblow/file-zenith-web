@@ -91,6 +91,5 @@
     "node": ">=18",
     "pnpm": ">=9.0.0"
   },
-  "engineStrict": true,
-  "packageManager": "pnpm@10.6.2"
+  "engineStrict": true
 }

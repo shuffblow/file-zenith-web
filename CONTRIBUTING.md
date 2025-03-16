@@ -13,8 +13,8 @@ First, fork the repository to your GitHub account. This will create your own cop
 Clone the repository you just forked to your local machine:
 
 ```bash
-git clone https://github.com/your-username/repository-name.git
-cd repository-name
+git clone https://github.com/your-username/file-zenith-web.git
+cd file-zenith-web
 ```
 
 ### 3. Add Upstream Remote
@@ -22,16 +22,29 @@ cd repository-name
 To keep your repository in sync with the original repository, add the upstream remote:
 
 ```bash
-git remote add upstream https://github.com/xun082/online-edit-web.git
+git remote add upstream https://github.com/code-cracks/file-zenith-web.git
 ```
 
 ### 4. Create a New Branch
 
-Before you start working, make sure to create a new branch:
+Before you start working, make sure to create a new branch. Branch names should follow the "functionality type/functionality description" format:
 
 ```bash
-git checkout -b feature/your-branch-name
+git checkout -b feat/feature-description
 ```
+
+Branch types can be:
+
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Styling
+- `refactor`: Code refactoring
+- `perf`: Performance improvement
+- `test`: Testing
+- `chore`: Other changes
+
+For example: `feat/home`, `fix/login-bug`, `docs/api-guide`
 
 ## Development Workflow
 
@@ -51,32 +64,16 @@ To ensure you are developing in a properly running environment, start the projec
 pnpm dev
 ```
 
-### 3. Globally Link the Project
-
-To conveniently use and test your scaffold commands during development, you can globally link your project using `pnpm link --global`:
-
-```bash
-pnpm link --global
-```
-
-If using `npm link`, the command is:
-
-```bash
-npm link
-```
-
-This way, you can use your scaffold commands anywhere without having to run them from the project directory each time.
-
-### 4. Development Guidelines
+### 3. Development Guidelines
 
 Please follow these development guidelines:
 
 - Ensure code is clear and concise.
-- Follow the project's code style and standards (you can use ESLint and Prettier).
+- Follow the project's code style and standards (using ESLint and Prettier).
 - If you add new features, please write corresponding tests.
 - If you fix bugs, please add tests to prevent them from reoccurring.
 
-### 5. Commit Changes
+### 4. Code Checking and Formatting
 
 Before committing your changes, make sure you have properly formatted and linted the code:
 
@@ -85,12 +82,72 @@ pnpm lint
 pnpm format
 ```
 
-Then commit your changes:
+You can also run type checking to ensure type safety:
 
 ```bash
-git add .
-git commit -m "Clear and descriptive commit message"
+pnpm type-check
 ```
+
+### 5. Commit Changes
+
+This project uses commitlint and commitizen to standardize commit messages. Please use the following command to commit your changes:
+
+```bash
+pnpm commit
+```
+
+This will start an interactive commit process that guides you through selecting a commit type (such as feat, fix, docs, etc.) and filling in the commit message. Here's a guide for filling out each field:
+
+1. **Select the type of change**:
+
+   - Use arrow keys to select the type that best fits your changes
+   - Commit types include:
+     - `feat`: 🚀 A new feature
+     - `fix`: 🧩 A bug fix
+     - `docs`: 📚 Documentation only changes
+     - `style`: 🎨 Changes that do not affect the meaning of the code
+     - `refactor`: ♻️ A code change that neither fixes a bug nor adds a feature
+     - `perf`: ⚡️ A code change that improves performance
+     - `test`: ✅ Adding or modifying tests
+     - `build`: 📦️ Changes that affect the build system or external dependencies
+     - `ci`: 🎡 Changes to CI configuration
+     - `chore`: 🔨 Other changes that don't modify src or test files
+     - `revert`: ⏪️ Reverts a previous commit
+
+2. **Denote the SCOPE of this change (optional)**:
+
+   - This is optional and indicates what area your change affects
+   - Can be a component name, file name, feature area, etc.
+   - If your change affects multiple areas or you're unsure, select "empty"
+   - If you need a custom scope, select "custom" and enter your own scope
+
+3. **Write a SHORT, IMPERATIVE tense description of the change**:
+
+   - Describe your change in a short sentence
+   - Use imperative mood, e.g., "add user login feature" instead of "added user login feature"
+   - No need to capitalize the first letter or add a period at the end
+
+4. **Provide a LONGER description of the change (optional)**:
+
+   - This is optional and provides more details about your change
+   - Can describe the reason for the change, implementation details, etc.
+   - Use "|" to break new lines
+
+5. **List any BREAKING CHANGES (optional)**:
+
+   - If your change breaks existing APIs or functionality, describe it here
+   - Provide details about the breaking change and migration instructions
+   - Use "|" to break new lines
+
+6. **List any ISSUES by this change**:
+
+   - If your change is related to any issues, list them here
+   - Format as "#IssueNumber", e.g., "#31", "#34"
+
+7. **Are you sure you want to proceed with the commit above?**:
+   - Review your commit message and select "yes" if everything looks correct
+
+After completing these steps, your commit message will be formatted and committed to the repository.
 
 ### 6. Sync Your Branch
 
@@ -106,7 +163,7 @@ git rebase upstream/main
 Push your branch to your own repository:
 
 ```bash
-git push origin feature/your-branch-name
+git push origin feat/feature-description
 ```
 
 ### 8. Create a Pull Request
@@ -134,4 +191,4 @@ If you have a suggestion for a new feature, please create an issue on GitHub and
 
 ## Contact Us
 
-If you have any questions or need help, please feel free to contact us via email at `2042204285@qq.com` or WeChat `yunmz777`, or ask on GitHub.
+If you have any questions or need help, please ask on GitHub or create an Issue.
