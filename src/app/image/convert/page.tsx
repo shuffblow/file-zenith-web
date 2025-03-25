@@ -53,11 +53,13 @@ export default function ImageConvert() {
     e.stopPropagation();
     setIsDragging(false);
 
-    const droppedFiles = Array.from(e.dataTransfer.files)
-      .filter(file => file.type.startsWith('image/'));
+    const droppedFiles = Array.from(e.dataTransfer.files).filter((file) =>
+      file.type.startsWith('image/'),
+    );
 
     if (droppedFiles.length > 0) {
-      handleFiles(droppedFiles);
+      setFiles((prev) => [...prev, ...droppedFiles]);
+      setOutput([]);
     }
   };
 
@@ -205,8 +207,12 @@ export default function ImageConvert() {
 
       {/* 上传区域 */}
       <div
-        className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors
-          ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
+        className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200
+          ${
+            isDragging
+              ? 'border-blue-500 bg-blue-50 scale-[1.02]'
+              : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+          }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -224,13 +230,15 @@ export default function ImageConvert() {
           htmlFor="file-upload"
           className="flex flex-col items-center justify-center space-y-4 cursor-pointer"
         >
-          <Upload className="h-12 w-12 text-gray-400" />
+          <Upload
+            className={`h-12 w-12 ${isDragging ? 'text-blue-500 animate-pulse' : 'text-gray-400'}`}
+          />
           <div>
             <span className="text-blue-600 font-medium">点击上传</span>
             <span className="text-gray-500">或拖拽文件到此区域</span>
           </div>
           <p className="text-sm text-gray-400">
-            支持 JPEG, PNG, WEBP 格式（单次最多20个文件）
+            支持 JPEG, PNG, WEBP, BMP 格式（单次最多20个文件）
           </p>
         </label>
       </div>
