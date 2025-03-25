@@ -16,6 +16,7 @@ export default function ImageConvert() {
   const [files, setFiles] = useState<File[]>([]);
   const [converting, setConverting] = useState(false);
   const [selectedFormat, setSelectedFormat] = useState(SUPPORTED_FORMATS[0]);
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [output, setOutput] = useState<{ name: string; url: string }[]>([]);
 
@@ -31,6 +32,32 @@ export default function ImageConvert() {
     // 清空文件输入，以便可以再次选择相同的文件
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+  };
+
+  // 处理文件拖拽
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const droppedFiles = Array.from(e.dataTransfer.files)
+      .filter(file => file.type.startsWith('image/'));
+
+    if (droppedFiles.length > 0) {
+      handleFiles(droppedFiles);
     }
   };
 
@@ -177,7 +204,13 @@ export default function ImageConvert() {
       <h1 className="text-3xl font-bold text-center mb-8">图片格式转换</h1>
 
       {/* 上传区域 */}
-      <div className="mb-8 p-6 border-2 border-dashed border-gray-300 rounded-lg text-center">
+      <div
+        className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors
+          ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
         <input
           type="file"
           ref={fileInputRef}
@@ -192,8 +225,13 @@ export default function ImageConvert() {
           className="flex flex-col items-center justify-center space-y-4 cursor-pointer"
         >
           <Upload className="h-12 w-12 text-gray-400" />
-          <p className="text-lg font-medium">点击或拖拽文件到此处上传</p>
-          <p className="text-sm text-gray-500">支持的格式: JPG, PNG, WebP, GIF, BMP</p>
+          <div>
+            <span className="text-blue-600 font-medium">点击上传</span>
+            <span className="text-gray-500">或拖拽文件到此区域</span>
+          </div>
+          <p className="text-sm text-gray-400">
+            支持 JPEG, PNG, WEBP 格式（单次最多20个文件）
+          </p>
         </label>
       </div>
 
